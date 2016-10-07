@@ -116,6 +116,11 @@ class Mockery
         $name = array_shift($args);
 
         $builder = new MockConfigurationBuilder();
+        if (is_string($name) && substr($name, 0, 9) == 'overload:') {
+            $name = str_replace('overload:', '', $name);
+            $builder->setInstanceMock(true);
+            $builder->addTarget('stdClass');
+        }
         $builder->setName($name);
 
         array_unshift($args, $builder);
